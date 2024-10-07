@@ -1,53 +1,36 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* rev(ListNode *head){
-        if(head==NULL || head->next==NULL){
-            return head;
-        }
-
-        ListNode *newH = rev(head->next);
-        ListNode *frnt = head->next;
-        frnt->next = head;
-        head->next = NULL;
-        return newH;
-    }
-    bool isPalindrome(ListNode* head) {
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        if(head==NULL || head->next==NULL){
-            return true;
-        }
-
-        ListNode *s = head, *f=head;
-        while(f->next !=NULL && f->next->next !=NULL){
-            s = s->next;
-            f = f->next->next;
-        }
-
-        ListNode *secH = rev(s->next);
-
-        ListNode *fir = head;
-        ListNode *sec = secH;
-
-        while(sec != NULL){
-            if(fir->val != sec->val){
-                rev(secH);
-                return false;
+    /**
+    * Definition for singly-linked list.
+    * struct ListNode {
+    *     int val;
+    *     ListNode *next;
+    *     ListNode() : val(0), next(nullptr) {}
+    *     ListNode(int x) : val(x), next(nullptr) {}
+    *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+    * };
+    */
+    class Solution {
+    public:
+        bool isPalindrome(ListNode* head) {
+            vector<int> arr;
+            int n = 0;
+            ListNode *curr = head;
+            while(curr!=NULL){
+                n++;
+                arr.push_back(curr->val);
+                curr=curr->next;
             }
-            fir=fir->next;
-            sec=sec->next;
-        }
-        rev(secH);
-        return true;
-    }
-};
+
+            bool flag=0;
+            for (int i = 0; i <= n / 2 && n != 0; i++) {
+                if (arr[i] != arr[n - i - 1]) {
+                    flag = 1;
+                    break;
+                }
+            }
+    
+            if (flag == 1)
+                return false;
+            else
+                return true;
+            }
+    };
